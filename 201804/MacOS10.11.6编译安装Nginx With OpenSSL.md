@@ -99,6 +99,28 @@ server {
 
 现在生成的证书是不受信任的，如果需要受信任的证书，需要证书颁发机构颁发（需要用钱解决）。
 
+# 5. 强制使用HTTPS（HTTP跳转到HTTPS）
+
+配置如下
+```
+server {
+    listen       80;
+    listen       443 ssl;
+	server_name  localhost 127.0.0.1;
+	ssl on; #只允许https请求访问
+    ssl_certificate     /usr/local/nginx/conf/localhost.crt;
+    ssl_certificate_key /usr/local/nginx/conf/localhost_nopass.key;
+    error_page 497 https://$host$request_uri;
+}
+```
+上述配置中，由于使用了`ssl on`，所以只允许`https`访问，nginx会给出497错误（非标准错误，浏览器看到的是400错误）。然后使用`error_page`将该错误重定向到`https`即可。
+也可以使用判断`$scheme`的方式。或者配置两个`server`的方式，`rewrite`或者`return 301`。
+
+```
+if ($scheme = http) {
+    return 301 https://$host$request_uri;
+}
+```
 
 
 # 参考
