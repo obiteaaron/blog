@@ -101,6 +101,7 @@ server {
 
 # 5. 强制使用HTTPS（HTTP跳转到HTTPS）
 
+### 方法一
 配置如下
 ```
 server {
@@ -114,11 +115,52 @@ server {
 }
 ```
 上述配置中，由于使用了`ssl on`，所以只允许`https`访问，nginx会给出497错误（非标准错误，浏览器看到的是400错误）。然后使用`error_page`将该错误重定向到`https`即可。
-也可以使用判断`$scheme`的方式。或者配置两个`server`的方式，`rewrite`或者`return 301`。
 
+`ssl on`类似于总开关，会影响全局server。必须配置在第一个server里，否则不生效。且会影响所有的server。如果希望http和https共存，则不要配置这一行。
+
+### 方法二
+http和https共存，可以使用判断`$scheme`的方式。或者配置两个`server`的方式，`rewrite`或者`return 301`。
+
+```
+server {
+    listen       80;
+    listen       443 ssl;
+	server_name  localhost 127.0.0.1;
+    ssl_certificate     /usr/local/nginx/conf/localhost.crt;
+    ssl_certificate_key /usr/local/nginx/conf/localhost_nopass.key;
+
+    if ($scheme = http) {
+        return 301 https://$host$request_uri;
+    }
+}
+```
+
+**附：可以使用下面的通用方式配置，在nginx.conf目录下增加两个文件**
+
+nginx_ssl.conf
+```
+listen       443 ssl;
+ssl_certificate     /opt/feng/nginx-1.9.6/conf/ssl/localhost.crt;
+ssl_certificate_key /opt/feng/nginx-1.9.6/conf/ssl/localhost_nopass.key;
+```
+
+nginx_ssl_force.conf
 ```
 if ($scheme = http) {
     return 301 https://$host$request_uri;
+}
+```
+
+在server配置中直接引入即可。
+```
+server {
+    listen       80;
+	server_name  localhost 127.0.0.1;
+
+	include nginx_ssl.conf;
+	include nginx_ssl_force.conf;
+
+    # 省略其他配置...
 }
 ```
 
