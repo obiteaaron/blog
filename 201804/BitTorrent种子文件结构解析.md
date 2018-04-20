@@ -168,6 +168,9 @@ print(urllib.unquote(magneturi))
       ├─piece length {int}524288
       └─pieces {str}一串二进制格式的代码，直接看不到内容，可以使用`base64.b16encode(metadata['info']['pieces'][0:20])`查看，每20位是一个分片的SHA1编码
 
+### Java解析
+
+**自己动手实现了一把BEncode编码，熟练以下，附链接** [BEncode Java实现](https://github.com/obiteaaron/obiteaaron/tree/master/bencode)
 
 
 ### 引用
