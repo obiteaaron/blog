@@ -32,7 +32,7 @@ bt 种子文件是使用 bencode 编码的，整个文件就 dictionary，包含
     * 文件信息包括文件的公共部分
 
       **piece length, integer**, 必选, 每一数据块的长度  
-      **pieces, string**, 必选, 所有数据块的 SHA1 校验值  
+      **pieces, string**, 必选, 包含所有数据块的 SHA1 校验值，每个块的20个字节的SHAT Hash的值直接连起来(二进制格式)，所以这个字段的长度一定是20的整数倍  
       **publisher, string**, 可选, 发布者  
       **publisher.utf-8, string**, 可选, 发布者的 UTF-8 编码  
       **publisher-url, string**, 可选, 发布者的 URL  
@@ -171,7 +171,8 @@ print(urllib.unquote(magneturi))
 
 
 ### 引用
-> http://luoguochun.cn/2014/09/17/bt-file-structure/
-> https://blog.csdn.net/mergerly/article/details/8013694
-> https://segmentfault.com/a/1190000000681331
+> http://luoguochun.cn/2014/09/17/bt-file-structure/  
+> https://blog.csdn.net/mergerly/article/details/8013694  
+> https://segmentfault.com/a/1190000000681331  
+> https://blog.csdn.net/u012888602/article/details/47167841  
 
