@@ -14,3 +14,4 @@ Personal blog, blogs are all original.
 [BT下载：比特彗星0.85版本之_____padding_file](201808/BT下载：比特彗星0.85版本之_____padding_file.md)  
 ### 201903
 [家庭WIFI无缝漫游](201903/家庭WIFI无缝漫游.md)  
+[如何在Windows10上从此电脑删除3D对象](201903/如何在Windows10上从此电脑删除3D对象.md)  
